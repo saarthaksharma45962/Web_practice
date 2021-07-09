@@ -1,0 +1,47 @@
+<?php
+  include"phfiles/dbconn.php";
+
+  if(isset($_POST['new_project'])){
+
+    $pname= $_POST['inputName'];
+    $pdesc = $_POST['inputDescription'];
+#----------------------checking the value is selected from dropdown or not---------------------------#
+   if(isset($_POST['status'])){
+    $pstatus = $_POST['status'];
+   }
+   else{
+      echo"Select value from the dropdown";
+   
+  }
+#--------------------------------------------------------------------------------------------------#
+
+  $pclientcompany = $_POST['inputClientCompany'];
+  $pleader = $_POST['inputProjectLeader']; 
+  $pbudget = $_POST['inputEstimatedBudget']; 
+  $pspentbudget = $_POST['inputSpentBudget']; 
+  $pduration = $_POST['inputEstimatedDuration']; 
+  $code_file = $_FILES['uploaded_file'];
+  if(empty($pname)|| empty($pdesc)|| empty($pclientcompany)|| empty($pleader) || empty($pbudget)|| empty($pspentbudget) || empty($pduration)){
+
+    echo"Enter All details";
+  } 
+  else{
+      #----------------------------------------------validating leaders name----------------------------------------------------
+      if(preg_match("/^[A-za-z' ]+$/",$pleader)){
+           $insert_query = "insert into projects(Project_Name,Description,Status,Client_Org,Project_Lead,Estimated_budget,Amount_spent,Project_duration) 
+                        values('$pname','$pdesc','$pstatus','$pclientcompany','$pleader','$pbudget','$pspentbudget','$pduration')" ;
+            $execute = mysqli_query($connection,$insert_query);
+            if( $execute){
+              
+              ?>
+
+            <script>alert("Project added successfully");</script>
+        <?php    
+                        
+          }
+      }
+         
+    } 
+  }
+  
+?>
